@@ -1,0 +1,28 @@
+链表中的元素通过迭代器联系在一起，适当处理后适合用来模拟环
+#include <iostream>
+#include <list>
+using namespace std;
+int main(){
+    int n,m;
+    cin >> n >> m;
+    list<int> s;
+    for(int i = 1;i <= n;i ++){
+        s.push_back(i);
+    }
+    int num = 0;
+    list<int>::iterator it;
+    //注意要对迭代器进行初始化
+    it = s.begin();
+    while(!s.empty()){
+        num ++;
+        if(num == m){
+            num = 0;
+            cout << *it << ' ';
+            it = s.erase(it);
+            if(it == s.end()) it = s.begin();
+        } else {
+            it ++;
+            if(it == s.end()) it = s.begin();
+        }
+    }
+}
