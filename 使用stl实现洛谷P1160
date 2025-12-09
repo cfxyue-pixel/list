@@ -1,0 +1,36 @@
+利用stl中的list实现o1的插入与删除
+本题的核心在于用vector存储需要处理的号码对应的位置信息，这样就不需要每次从头开始寻找了
+#include <iostream>
+#include <list>
+#include <vector>
+using namespace std;
+int main(){
+    list<int> s;
+    int n;
+    cin >> n;
+    vector<list<int>::iterator> pos(n + 1);
+    s.push_back(1);
+    pos[1] = s.begin();
+    for(int i = 2;i <= n;i ++){
+        int k,p;
+        cin >> k >> p;
+        if(p == 0){
+            pos[i] = s.insert(pos[k],i);
+        } else {
+            auto it = pos[k];
+            it ++;
+            pos[i] = s.insert(it,i);
+        }
+    }
+    int m;
+    cin >> m;
+    while(m --){
+        int x;
+        cin >> x;
+        if(pos[x] != s.end()){
+            s.erase(pos[x]);
+            pos[x] = s.end();
+        }
+    }
+    for(auto &x:s) cout << x << ' ';
+}
