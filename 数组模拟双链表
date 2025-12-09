@@ -1,0 +1,58 @@
+使用数组模拟双链表，题目为洛谷P1160
+s[]用来模拟链表，tot是当前创建的节点索引，index[]用来将值和链表索引一一对应
+#include <iostream>
+using namespace std;
+struct node{
+    int pre,next;
+    int key;
+    node(int _pre = 0,int _next = 0,int _key = 0){
+        pre = _pre;
+        next = _next;
+        key = _key;
+    }
+};
+node s[100005];
+int tot = 0,index[100005] = {0};
+void ins_back(int x,int y){
+    int now = index[x];
+    s[++tot] = {now,s[now].next,y};
+    s[s[now].next].pre = tot;
+    s[now].next = tot;
+    index[y] = tot;
+}
+void ins_front(int x,int y){
+    int now = index[x];
+    s[++tot] = {s[now].pre,now,y};
+    s[s[now].pre].next = tot;
+    s[now].pre = tot;
+    index[y] = tot;
+}
+void del(int k){
+    int now = index[k];
+    s[s[now].pre].next = s[now].next;
+    s[s[now].next].pre = s[now].pre;
+    index[k] = 0;
+}
+int main(){
+    int n;
+    cin >> n;
+    s[0] = 0;
+    ins_back(0,1);
+    for(int i = 2;i <= n;i ++){
+        int k,p;
+        cin >> k >> p;
+        p?ins_back(k,i):ins_front(k,i);
+    }
+    int m;
+    cin >> m;
+    while(m --){
+        int num;
+        cin >> num;
+        if(index[num]) del(num);
+    }
+    //s的每一个元素模拟的都是一个节点，可以用这个元素的信息追踪下一个坐标
+    int now = s[0].next;
+    for(;now;now = s[now].next){
+        cout << s[now].key << ' ';
+    }
+}
