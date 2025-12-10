@@ -1,0 +1,33 @@
+//核心在于list中的erase会导致迭代器失效，无法进行It++的操作；应当在删除后使用erase函数的返回值进行迭代器移动，分情况讨论
+#include <iostream>
+#include <list>
+using namespace std;
+int main(){
+    int num;
+    list<int> l1;
+    while(cin >> num){
+        if(num == -1){
+            break;
+        }
+        l1.push_back(num);
+    }
+    list<int> ::iterator it1,it2;
+    it1 = l1.begin();
+    it2 = l1.begin();
+    while(it1 != l1.end()){
+        bool isfound = false;
+        it2 = it1;
+        while(it2 != l1.begin()){
+            it2 --;
+            if(*it1 == *it2){
+                it1 = l1.erase(it1);
+                isfound = true;
+                break;
+            }
+        }
+        if(!isfound){
+            cout << *it1 << ' ';
+            it1 ++;
+        }
+    }
+}
