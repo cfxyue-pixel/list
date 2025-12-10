@@ -1,0 +1,44 @@
+//注意list使用的sort不是标准库中的，访问时为：l1.sort();
+#include <iostream>
+#include <list>
+using namespace std;
+int main(){
+    int n1,n2;
+    cin >> n1 >> n2;
+    list<int> l1,l2,l3;
+    while(n1 --){
+        int num ;
+        cin >> num;
+        l1.push_back(num);
+    }
+    while(n2 --){
+        int num;
+        cin >> num;
+        l2.push_back(num);
+    }
+    l1.sort();
+    l2.sort();
+    list<int> ::iterator it1,it2;
+    it1 = l1.begin();
+    it2 = l2.begin();
+    while(it1 != l1.end() && it2 != l2.end()){
+        if(*it1 < *it2){
+            l3.push_back(*it1);
+            it1 ++;
+        } else {
+            l3.push_back(*it2);
+            it2 ++;
+        }
+    }
+    while(it1 != l1.end()){
+        l3.push_back(*it1);
+        it1 ++;
+    }
+    while(it2 != l2.end()){
+        l3.push_back(*it2);
+        it2 ++;
+    }
+    for(auto &x:l3){
+        cout << x << ' ';
+    }
+}
